@@ -33,7 +33,21 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+  for (let i = 99; i >= 2; i--) {
+    let phrase = `${i} bottles of beer on the wall, ${i} bottles of beer.`;
+    yield phrase;
+    if (i != 2) {
+      phrase = `Take one down and pass it around, ${i-1} bottles of beer on the wall.`;
+      yield phrase;
+    } else {
+      yield `Take one down and pass it around, 1 bottle of beer on the wall.`;
+      yield '1 bottle of beer on the wall, 1 bottle of beer.';
+      yield 'Take one down and pass it around, no more bottles of beer on the wall.';
+      yield 'No more bottles of beer on the wall, no more bottles of beer.';
+      yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
+      // yield phrase;
+    }
+  }
 }
 
 
@@ -47,7 +61,17 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+  let first = 0;
+  yield first;
+  let second = 1;
+  yield second;
+  let memFirst;
+  do {
+    memFirst = first;
+    first = second;
+    second += memFirst;
+    yield second;
+  } while (true)
 }
 
 
@@ -82,7 +106,7 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
 
 
@@ -108,7 +132,7 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
 
 
@@ -126,14 +150,25 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
-}
+// 
+//   // return [1, 2, 3]
+//   let firstNum = () => source1();
+//   let secondNum = () => source2();
+//   do {
+//     if (firstNum > secondNum) {
+//       yield firstNum;
+//     } else {
+//       let out = secondNum;
+//       yield out();
+//     }
+//   } while (true)
+// }
 
 
 module.exports = {
-    get99BottlesOfBeer: get99BottlesOfBeer,
-    getFibonacciSequence: getFibonacciSequence,
-    depthTraversalTree: depthTraversalTree,
-    breadthTraversalTree: breadthTraversalTree,
-    mergeSortedSequences: mergeSortedSequences
+  get99BottlesOfBeer: get99BottlesOfBeer,
+  getFibonacciSequence: getFibonacciSequence,
+  depthTraversalTree: depthTraversalTree,
+  breadthTraversalTree: breadthTraversalTree,
+  mergeSortedSequences: mergeSortedSequences
 };

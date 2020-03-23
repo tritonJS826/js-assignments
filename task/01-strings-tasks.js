@@ -22,7 +22,7 @@
  *   '',  'bb'  => 'bb'
  */
 function concatenateStrings(value1, value2) {
-    throw new Error('Not implemented');
+  return value1 + value2;
 }
 
 
@@ -38,7 +38,7 @@ function concatenateStrings(value1, value2) {
  *   ''      => 0
  */
 function getStringLength(value) {
-    throw new Error('Not implemented');
+  return value.length;
 }
 
 /**
@@ -55,7 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-    throw new Error('Not implemented');
+  return `Hello, ${firstName} ${lastName}!`
 }
 
 /**
@@ -69,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    throw new Error('Not implemented');
+  return value.slice(7, value.length - 1)
 }
 
 
@@ -84,7 +84,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-    throw new Error('Not implemented');
+  return value[0];
 }
 
 /**
@@ -99,7 +99,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    throw new Error('Not implemented');
+  return value.trim();
 }
 
 /**
@@ -114,12 +114,12 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    throw new Error('Not implemented');
+  return value.repeat(count);
 }
 
 /**
  * Remove the first occurrence of string inside another string
- * 
+ *
  * @param {string} str
  * @param {string} value
  * @return {string}
@@ -130,9 +130,8 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    throw new Error('Not implemented');
+  return str.replace(value, '');
 }
-
 /**
  * Remove the first and last angle brackets from tag string
  *
@@ -145,7 +144,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+  return str.replace(/>/, '').replace(/</, '');
 }
 
 
@@ -160,7 +159,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    throw new Error('Not implemented');
+  return str.toUpperCase();
 }
 
 /**
@@ -174,7 +173,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    throw new Error('Not implemented');
+  return str.split(';');
 }
 
 /**
@@ -197,11 +196,26 @@ function extractEmails(str) {
  *
  *             '┌──────────┐\n'+
  *  (12,3) =>  '│          │\n'+
- *             '└──────────┘\n'
  *
+ *             '└──────────┘\n'
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+  const ltop = '┌';
+  const rtop = '┐\n';
+  const lbottom = '└';
+  const rbottom = '┘\n';
+  const hyphen = '─';
+  const startLine = '│';
+  const endLine = '│\n'
+  const space = ' ';
+
+  const topLine = `${ltop}${hyphen.repeat(width-2)}${rtop}`;
+  const line = `${startLine}${space.repeat(width-2)}${endLine}`;
+  const bottomLine = `${lbottom}${hyphen.repeat(width-2)}${rbottom}`;
+
+  const rectangle = topLine + line.repeat(height - 2) + bottomLine;
+
+  return rectangle;
 }
 
 
@@ -221,57 +235,111 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+  //65-90 97-122
+  let cryptString = '';
+  for (let i = 0; i <= str.length-1; i++) {
+    cryptString += encodeLetter(str[i]);
+  }
+  return cryptString;
+
+  function encodeLetter(letter) {
+    if (letter.charCodeAt(0) <= 90 && letter.charCodeAt(0) >= 65) {
+      if (letter.charCodeAt(0) <= 77) {
+        return String.fromCharCode(letter.charCodeAt(0) + 13);
+      } else {
+        return String.fromCharCode(letter.charCodeAt(0) - 13);
+      }
+    } else {
+      if (letter.charCodeAt(0) <= 122 && letter.charCodeAt(0) >= 97) {
+        if (letter.charCodeAt(0) <= 109) {
+          return String.fromCharCode(letter.charCodeAt(0) + 13);
+        } else {
+          return String.fromCharCode(letter.charCodeAt(0) - 13);
+        }
+      }
+    }
+    return letter;
+  }
 }
-
-/**
- * Returns true if the value is string; otherwise false.
- * @param {string} value
- * @return {boolean}
- *
- * @example
- *   isString() => false
- *   isString(null) => false
- *   isString([]) => false
- *   isString({}) => false
- *   isString('test') => true
- *   isString(new String('test')) => true
- */
-function isString(value) {
-    throw new Error('Not implemented');
-}
-
-
-/**
- * Returns playid card id.
- * 
- * Playing cards inittial deck inclides the cards in the following order:
- * 
- *  'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
- *  'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
- *  'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
- *  'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
- * 
- * (see https://en.wikipedia.org/wiki/Standard_52-card_deck)
- * Function returns the zero-based index of specified card in the initial deck above.
- * 
- * @param {string} value
- * @return {number}
- *
- * @example
- *   'A♣' => 0
- *   '2♣' => 1 
- *   '3♣' => 2
- *     ...
- *   'Q♠' => 50
- *   'K♠' => 51
- */
-function getCardId(value) {
-    throw new Error('Not implemented');
-}
+  /**
+   * Returns true if the value is string; otherwise false.
+   * @param {string} value
+   * @return {boolean}
+   *
+   * @example
+   *   isString() => false
+   *   isString(null) => false
+   *   isString([]) => false
+   *   isString({}) => false
+   *   isString('test') => true
+   *   isString(new String('test')) => true
+   */
+  function isString(value) {
+    if (typeof(value) === 'string' || value instanceof String) {
+      return true
+    } else {
+      return false
+    }
+  }
 
 
-module.exports = {
+
+  /**
+   * Returns playid card id.
+   *
+   * Playing cards inittial deck inclides the cards in the following order:
+   *
+   *  'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+   *  'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
+   *  'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
+   *  'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
+   *
+   * (see https://en.wikipedia.org/wiki/Standard_52-card_deck)
+   * Function returns the zero-based index of specified card in the initial deck above.
+   *
+   * @param {string} value
+   * @return {number}
+   *
+   * @example
+   *   'A♣' => 0
+   *   '2♣' => 1
+   *   '3♣' => 2
+   *     ...
+   *   'Q♠' => 50
+   *   'K♠' => 51
+   */
+  function getCardId(value) {
+    let counter = 0;
+    const symbols = {
+      '♣': 0,
+      '♦': 13,
+      '♥': 26,
+      '♠': 39,
+      'J': 10,
+      'Q': 11,
+      'K': 12,
+      '1': 9,
+      '2': 1,
+      '3': 2,
+      '4': 3,
+      '5': 4,
+      '6': 5,
+      '7': 6,
+      '8': 7,
+      '9': 8,
+      'A': 0
+    }
+    counter = symbols[value[0]] + symbols[value[value.length - 1]];
+
+
+
+
+
+    return counter;
+  }
+
+
+  module.exports = {
     concatenateStrings: concatenateStrings,
     getStringLength: getStringLength,
     getStringFromTemplate: getStringFromTemplate,
@@ -287,4 +355,4 @@ module.exports = {
     encodeToRot13: encodeToRot13,
     isString: isString,
     getCardId: getCardId
-};
+  };

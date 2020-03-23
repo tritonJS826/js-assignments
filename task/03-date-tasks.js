@@ -22,7 +22,8 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+  let date = new Date(value);
+  return date;
 }
 
 /**
@@ -37,7 +38,8 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+  let date = new Date(value);
+  return date;
 }
 
 
@@ -56,7 +58,11 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+  if (date.getYear() % 4 == 0 && date.getYear() % 1900 !== 0) {
+    return true
+  } else {
+    return false
+  }
 }
 
 
@@ -76,14 +82,20 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+  const t = endDate-startDate;
+  const ms = (t%1000==0) ? '000' : t%1000;
+  const s = Math.round(t/1000)%60<10 ? `0${Math.round(t/1000)%60}`:`${Math.round(t/1000)%60}` ;
+  const m = (Math.round(t/1000)%3600-s)/60<10 ? `0${(Math.round(t/1000)%3600-s)/60}`:`${(Math.round(t/1000)%3600-s)/60}`;
+  const h = (t-m*60000-s*1000-ms)/3600000<10 ? `0${(t-m*60000-s*1000-ms)/3600000}`:`${(t-m*60000-s*1000-ms)/3600000}`;
+  //const s = Math.round(t/1000)%60;
+   return `${h}:${m}:${s}.${ms}`;
 }
 
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
  * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
- * 
+ *
  * @param {date} date
  * @return {number}
  *
@@ -94,14 +106,21 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
+
+  const h = date.getHours();
+  const m = date.getMinutes();
+  const angleHours = h%12*5*2*Math.PI/60;//перевожу в rad
+  const angleMinutes = m*2*Math.PI/60;
+  console.log(date + ' !!H:' + date.getHours() + ' !!M:' + date.getMinutes());
+  return Math.abs(angleMinutes-angleHours);
 }
 
 
 module.exports = {
-    parseDataFromRfc2822: parseDataFromRfc2822,
-    parseDataFromIso8601: parseDataFromIso8601,
-    isLeapYear: isLeapYear,
-    timeSpanToString: timeSpanToString,
-    angleBetweenClockHands: angleBetweenClockHands
+  parseDataFromRfc2822: parseDataFromRfc2822,
+  parseDataFromIso8601: parseDataFromIso8601,
+  isLeapYear: isLeapYear,
+  timeSpanToString: timeSpanToString,
+  angleBetweenClockHands: angleBetweenClockHands
 };
