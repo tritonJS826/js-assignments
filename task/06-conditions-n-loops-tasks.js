@@ -30,7 +30,10 @@
  *
  */
 function getFizzBuzz(num) {
-  throw new Error('Not implemented');
+  if (num % 3 === 0 && num % 5 === 0) return 'FizzBuzz';
+  if (num % 3 === 0) return 'Fizz';
+  if (num % 5 === 0) return 'Buzz';
+  return num;
 }
 
 
@@ -128,10 +131,41 @@ function isTriangle(a, b, c) {
  */
 function doRectanglesOverlap(rect1, rect2) {
   throw new Error('Not implemented');
+  if (rect1.top <= rect2.top + rect2.height || rect1.top + rect1.height >= rect2.top || rect1.left + rect1.width <= rect2.left || rect1.left >= rect2.left + rect2.width) {
+    return true
+  };
+  // может полностью закрывает
+  if (rect2.top <= rect1.top && rect2.top + rect2.height >= rect1.top + rect1.height && rect2.left <= rect1.left && rect2.left + rect2.width >= rect1.left + rect1.width) return true;
+  return false;
+  // const xTL1 = rect1.left;
+  // const yTL1 = rect1.top;
+  // const xBR1 = rect1.left+rect1.width;
+  // const yBR1 = rect1.top+rect1.height;
+  //
+  //
+  // const xTL2 = rect2.left;
+  // const yTL2 = rect2.top;
+  // const xTR2 = rect2.left+rect2.width;
+  // const yTR2 = rect2.top;
+  // const xBL2 = rect2.left;
+  // const yBL2 = rect2.top;
+  // const xBR2 = rect2.left+rect2.width;
+  // const yBR2 = rect2.top+rect2.height;
+
+  //проверим лежат ли точки rect2 внутри rect1
+  // if (xTL2>=xTL1 && xTL1<=xBR1 && yTL2 >= yTL1 && yTL2 <= yBR1) return true;
+  // if (xTR2>=xTL1 && xTR2<=xBR1 && yTR2 >= yTL1 && yTR2 <= yBR1) return true;
+  // if (xBL2>=xTL1 && xBL2<=xBR1 && yBL2 >= yTL1 && yBL2 <= yBR1) return true;
+  // if (xBR2>=xTL1 && xBR2<=xBR1 && yBR2 >= yTL1 && yBR2 <= yBR1) return true;
+  //может пересекаются стороны
+
+
+
+
 }
 
 
-/**
+/**1
  * Returns true, if point lies inside the circle, otherwise false.
  * Circle is an object of
  *  {
@@ -178,7 +212,13 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  throw new Error('Not implemented');
+
+  for (let i = 0; i < str.length; i++) {
+    if (!str.includes(str[i], i + 1) && !str.slice(0, i).includes(str[i])) {
+      return str[i]
+    }
+  }
+  return null;
 }
 
 
@@ -221,7 +261,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-  throw new Error('Not implemented');
+  return str.split("").reverse().join("");
 }
 
 
@@ -238,7 +278,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-  throw new Error('Not implemented');
+  return Number(String(num).split('').reverse().join(''))
 }
 
 
@@ -263,7 +303,27 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-  throw new Error('Not implemented');
+  let supArr = String(ccn).split('').map((el) => {
+    return Number(el)
+  });
+  let answer = supArr.reduce((accum, elem, ind) => {
+    console.log(elem + 'accum:' + accum);
+    elem = Number(elem);
+    if (ind % 2 !== 0) {
+      elem = elem * 2;
+      if (elem < 10) return Number(elem + accum);
+      if (elem >= 10) return Number((elem % 10 + (elem - (elem % 10)) / 10) + accum);
+    } else {
+      return Number(elem + accum);
+    }
+  });
+
+  console.log('ccn:' + ccn + ' answer:' + answer);
+  if (answer % 10 === 0) {
+    return true
+  } else {
+    return false
+  }
 }
 
 
@@ -282,7 +342,22 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-  throw new Error('Not implemented');
+  let sum = num
+  do {
+    sum = findSum(sum)
+  } while (sum > 9)
+
+  return sum;
+
+  function findSum(num) {
+    let accum = 0;
+    do {
+      accum += (num % 10);
+      num = Math.floor(num / 10);
+    } while (num > 9)
+    accum += num;
+    return accum;
+  }
 }
 
 
@@ -308,7 +383,67 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  throw new Error('Not implemented');
+  const bracketsConfig = [
+    ['[', ']'],
+    ['(', ')'],
+    ['{', '}'],
+    ['<', '>']
+  ]
+  return check(str, bracketsConfig);
+
+  function check(str, bracketsConfig) {
+    let stackArr = [];
+    let answer = true;
+    str.split('').forEach((elem) => {
+      //если стек пуст
+      if (stackArr.length === 0 && isFirstBracket(elem, bracketsConfig)) {
+        stackArr.push(elem);
+      } else
+
+      if (stackArr.length === 0 && isSecondBracket(elem, bracketsConfig)) {
+        answer = false;
+      } else
+        //если стек не пуст
+        if (stackArr.length !== 0 && isPair(stackArr[stackArr.length - 1], elem, bracketsConfig)) {
+          stackArr.pop();
+        } else
+      if (stackArr.length !== 0 && isFirstBracket(elem, bracketsConfig)) {
+        stackArr.push(elem);
+      } else
+      if (stackArr.length !== 0 && isSecondBracket(elem, bracketsConfig)) {
+        answer = false;
+      };
+    });
+    if (stackArr.length !== 0) answer = false;
+    return answer;
+  }
+
+
+
+
+  function isPair(bracket1, bracket2, bracketsConfig) {
+    let answer = false;
+    bracketsConfig.forEach(arr => {
+      if (bracket1 == arr[0] && bracket2 == arr[1]) answer = true;
+    });
+    return answer;
+  }
+
+  function isSecondBracket(bracket, bracketsConfig) {
+    let answer = false;
+    bracketsConfig.forEach(arr => {
+      if (bracket == arr[1]) answer = true;
+    });
+    return answer;
+  }
+
+  function isFirstBracket(bracket, bracketsConfig) {
+    let answer = false;
+    bracketsConfig.forEach(arr => {
+      if (bracket == arr[0]) answer = true;
+    });
+    return answer;
+  }
 }
 
 
@@ -368,7 +503,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-  throw new Error('Not implemented');
+  return num.toString(n)
 }
 
 
@@ -385,7 +520,24 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  throw new Error('Not implemented');
+  let answer = '';
+  let letter = '';
+  for (let i = 0; i < 100; i++) {
+    pathes.forEach((path, ind) => {
+      if (ind === 0) {
+        letter = path[i];
+      } else {
+        if (path[i] != letter) {
+          answer = path.slice(0, i);
+        }
+      }
+    });
+    if (answer !== '') {
+      //все одинаковые буквы мы нашли, теперь вернемся к /
+      const ind = answer.lastIndexOf('/');
+      return answer.slice(0,ind+1)
+    };
+  }
 }
 
 

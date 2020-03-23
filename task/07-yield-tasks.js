@@ -150,7 +150,9 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-// 
+  throw new Error('Not implemented');
+
+//
 //   // return [1, 2, 3]
 //   let firstNum = () => source1();
 //   let secondNum = () => source2();
@@ -162,7 +164,7 @@ function* mergeSortedSequences(source1, source2) {
 //       yield out();
 //     }
 //   } while (true)
-// }
+ }
 
 
 module.exports = {
